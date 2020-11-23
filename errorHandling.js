@@ -1,8 +1,8 @@
 exports.handle404s = ((_, __, next) => {
   const error = {
     statusCode: 404,
-    message: "Resource not found",
-    status: "Not Found"
+    message: "Resource not found Bacon",
+    status: "Not Found Bacon"
   };
   next(error);
 });

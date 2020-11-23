@@ -1,5 +1,7 @@
+// Environment variables
 require('dotenv').config();
 
+// Express server
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -23,18 +25,30 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Setup our session
-
+// Setup our session - stored on server
+const session = require('express-session');
+app.use(session({
+  resave: true,
+  saveUninitialized: false,
+  secret: 'mmmmmm salty'
+}));
 
 // Setting up Passport
+const passport = require('passport');
+app.use(passport.initialize());
+app.use(passport.session());
+const User = require('./models/user');
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 // Setting up Passport JWT
-
+console.log("Bacon is good");
 
 // register the routes
 const routes = require('./routes');
-const router = routes(express.Router(), passport);
+const router = routes(express.Router());
 app.use(router);
 
 // error handling
